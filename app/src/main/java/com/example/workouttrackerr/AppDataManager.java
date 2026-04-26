@@ -42,6 +42,14 @@ public class AppDataManager {
         saveRecord(KEY_PLANS, getPlans(), name, details);
     }
 
+    public void deletePlan(int index) {
+        List<String[]> plans = getPlans();
+        if (index >= 0 && index < plans.size()) {
+            plans.remove(index);
+            prefs.edit().putString(KEY_PLANS, serializeRecords(plans)).apply();
+        }
+    }
+
     public List<String[]> getExercises() {
         String defaults = "Bench Press" + FIELD_SEPARATOR + "Chest - Strength - Barbell"
                 + RECORD_SEPARATOR + "Squat" + FIELD_SEPARATOR + "Legs - Strength - Barbell"
@@ -51,6 +59,14 @@ public class AppDataManager {
 
     public void addExercise(String name, String details) {
         saveRecord(KEY_EXERCISES, getExercises(), name, details);
+    }
+
+    public void deleteExercise(int index) {
+        List<String[]> exercises = getExercises();
+        if (index >= 0 && index < exercises.size()) {
+            exercises.remove(index);
+            prefs.edit().putString(KEY_EXERCISES, serializeRecords(exercises)).apply();
+        }
     }
 
     public boolean hasBodyProfile() {

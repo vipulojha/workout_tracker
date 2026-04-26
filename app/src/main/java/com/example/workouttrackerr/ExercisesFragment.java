@@ -29,10 +29,28 @@ public class ExercisesFragment extends Fragment {
     private void renderExercises() {
         exercisesContainer.removeAllViews();
         List<String[]> exercises = dataManager.getExercises();
-        for (String[] exercise : exercises) {
+        for (int i = 0; i < exercises.size(); i++) {
+            final int index = i;
+            String[] exercise = exercises.get(i);
             TextView item = createListItem(exercise[0] + "\n" + exercise[1]);
+            item.setOnLongClickListener(v -> {
+                showDeleteDialog(exercise[0], index);
+                return true;
+            });
             exercisesContainer.addView(item);
         }
+    }
+
+    private void showDeleteDialog(String name, int index) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Delete exercise")
+                .setMessage("Are you sure you want to delete \"" + name + "\"?")
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    dataManager.deleteExercise(index);
+                    renderExercises();
+                })
+                .show();
     }
 
     private TextView createListItem(String text) {

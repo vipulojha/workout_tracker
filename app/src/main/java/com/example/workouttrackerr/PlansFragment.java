@@ -29,10 +29,28 @@ public class PlansFragment extends Fragment {
     private void renderPlans() {
         plansContainer.removeAllViews();
         List<String[]> plans = dataManager.getPlans();
-        for (String[] plan : plans) {
+        for (int i = 0; i < plans.size(); i++) {
+            final int index = i;
+            String[] plan = plans.get(i);
             TextView item = createListItem(plan[0] + "\n" + plan[1]);
+            item.setOnLongClickListener(v -> {
+                showDeleteDialog(plan[0], index);
+                return true;
+            });
             plansContainer.addView(item);
         }
+    }
+
+    private void showDeleteDialog(String name, int index) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Delete plan")
+                .setMessage("Are you sure you want to delete \"" + name + "\"?")
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    dataManager.deletePlan(index);
+                    renderPlans();
+                })
+                .show();
     }
 
     private TextView createListItem(String text) {
