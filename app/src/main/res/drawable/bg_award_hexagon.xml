@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetBottom="2dp"
+    android:insetLeft="2dp"
+    android:insetRight="2dp"
+    android:insetTop="2dp">
+    <shape android:shape="rectangle">
+        <corners android:radius="12dp" />
+        <gradient
+            android:angle="315"
+            android:endColor="@color/accent_primary"
+            android:startColor="@color/accent_secondary" />
+        <stroke
+            android:width="2dp"
+            android:color="#E0E0E0" />
+    </shape>
+</inset>
