@@ -10,10 +10,12 @@ import java.security.NoSuchAlgorithmException;
 public class AuthManager {
     private static final String PREFS_NAME = "workout_tracker_auth";
     private static final String KEY_NAME = "name";
+    private static final String KEY_USER_ID = "user_id";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PREVIOUS_EMAIL = "previous_email";
     private static final String KEY_PASSWORD_HASH = "password_hash";
     private static final String KEY_LOGGED_IN = "logged_in";
+    private static final String KEY_REMEMBER_ME = "remember_me";
 
     private static final String DEMO_NAME = "Fitness Athlete";
 
@@ -23,38 +25,45 @@ public class AuthManager {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
-    public AuthResult login(String email, String password) {
-        email = normalizeEmail(email);
-        if (!isValidEmail(email)) {
-            return AuthResult.error("Enter a valid email address");
+    public AuthResult login(String identifier, String password, boolean rememberMe) {
+        identifier = identifier == null ? "" : identifier.trim();
+        if (identifier.isEmpty()) {
+            return AuthResult.error("Enter your email or username");
         }
         if (password == null || password.isEmpty()) {
             return AuthResult.error("Enter your password");
         }
 
         String savedEmail = getEmail();
+        String savedName = getName();
         String previousEmail = prefs.getString(KEY_PREVIOUS_EMAIL, "");
         String savedPasswordHash = prefs.getString(KEY_PASSWORD_HASH, "");
 
-        boolean currentLogin = savedPasswordHash.equals(hashPassword(email, password));
-        boolean legacyLogin = savedPasswordHash.equals(hashLegacyPassword(email, password));
+        boolean identifierMatch = identifier.equalsIgnoreCase(savedEmail) || identifier.equalsIgnoreCase(savedName);
+        
+        // Use normalized email for hashing if it matches email, otherwise use the identifier
+        String hashTarget = identifier.equalsIgnoreCase(savedEmail) ? normalizeEmail(identifier) : identifier;
+
+        boolean currentLogin = savedPasswordHash.equals(hashPassword(hashTarget, password));
+        boolean legacyLogin = savedPasswordHash.equals(hashLegacyPassword(hashTarget, password));
         boolean previousLegacyLogin = !previousEmail.isEmpty()
                 && savedPasswordHash.equals(hashLegacyPassword(previousEmail, password));
-        boolean savedLogin = savedEmail.equals(email) && (currentLogin || legacyLogin);
-        savedLogin = savedLogin || (savedEmail.equals(email) && previousLegacyLogin);
+        
         if (savedEmail.isEmpty()) {
             return AuthResult.error("No account found. Please sign up first");
         }
-        if (!savedEmail.equals(email)) {
-            return AuthResult.error("No account found for this email");
+        if (!identifierMatch) {
+            return AuthResult.error("No account found for this user");
         }
-        if (!savedLogin) {
+        if (!currentLogin && !legacyLogin && !previousLegacyLogin) {
             return AuthResult.error("Incorrect password");
         }
 
-        SharedPreferences.Editor editor = prefs.edit().putBoolean(KEY_LOGGED_IN, true);
+        SharedPreferences.Editor editor = prefs.edit()
+                .putBoolean(KEY_LOGGED_IN, true)
+                .putBoolean(KEY_REMEMBER_ME, rememberMe);
         if (legacyLogin || previousLegacyLogin) {
-            editor.putString(KEY_PASSWORD_HASH, hashPassword(email, password));
+            editor.putString(KEY_PASSWORD_HASH, hashPassword(hashTarget, password));
             editor.remove(KEY_PREVIOUS_EMAIL);
         }
         editor.apply();
@@ -89,8 +98,16 @@ public class AuthManager {
         return prefs.getBoolean(KEY_LOGGED_IN, false);
     }
 
+    public boolean isRemembered() {
+        return prefs.getBoolean(KEY_REMEMBER_ME, false);
+    }
+
     public String getName() {
         return prefs.getString(KEY_NAME, DEMO_NAME);
+    }
+
+    public String getUserId() {
+        return prefs.getString(KEY_USER_ID, "FIT" + Math.abs(getName().hashCode() % 10000));
     }
 
     public String getEmail() {
@@ -101,17 +118,22 @@ public class AuthManager {
         prefs.edit().putBoolean(KEY_LOGGED_IN, false).apply();
     }
 
-    public AuthResult updateProfile(String name, String email) {
+    public AuthResult updateProfile(String name, String userId, String email) {
         name = name == null ? "" : name.trim();
+        userId = userId == null ? "" : userId.trim();
         email = normalizeEmail(email);
         if (name.length() < 2) {
             return AuthResult.error("Enter a valid name");
+        }
+        if (userId.isEmpty()) {
+            return AuthResult.error("Enter a valid User ID");
         }
         if (!isValidEmail(email)) {
             return AuthResult.error("Enter a valid email address");
         }
         prefs.edit()
                 .putString(KEY_NAME, name)
+                .putString(KEY_USER_ID, userId)
                 .putString(KEY_EMAIL, email)
                 .putString(KEY_PREVIOUS_EMAIL, getEmail())
                 .apply();

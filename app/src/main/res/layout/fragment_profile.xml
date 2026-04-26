@@ -95,34 +95,50 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/surface_dark"
+            android:background="@drawable/bg_auth_field"
             android:gravity="start|center_vertical"
             android:paddingStart="20dp"
             android:text="Edit Profile"
             android:textAllCaps="false"
-            android:textColor="@color/text_primary" />
+            android:textColor="@color/text_primary"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnBodyProfile"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_auth_field"
+            android:gravity="start|center_vertical"
+            android:paddingStart="20dp"
+            android:text="Body &amp; Goals"
+            android:textAllCaps="false"
+            android:textColor="@color/text_primary"
+            app:backgroundTint="@null" />
 
         <Button
             android:id="@+id/btnSettings"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/surface_dark"
+            android:background="@drawable/bg_auth_field"
             android:gravity="start|center_vertical"
             android:paddingStart="20dp"
             android:text="Settings"
             android:textAllCaps="false"
-            android:textColor="@color/text_primary" />
+            android:textColor="@color/text_primary"
+            app:backgroundTint="@null" />
 
         <Button
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:backgroundTint="@color/surface_dark"
+            android:background="@drawable/bg_auth_field"
             android:gravity="start|center_vertical"
             android:paddingStart="20dp"
             android:text="Log Out"
             android:textAllCaps="false"
-            android:textColor="@color/danger" />
+            android:textColor="@color/danger"
+            app:backgroundTint="@null" />
     </LinearLayout>
 </ScrollView>

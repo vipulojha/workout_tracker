@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 public class HomeFragment extends Fragment {
@@ -41,6 +42,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateWorkoutButton() {
-        workoutButtonText.setText(dataManager.isWorkoutActive() ? "Stop Workout" : "Start Workout");
+        boolean active = dataManager.isWorkoutActive();
+        workoutButtonText.setText(active ? "Stop Workout" : "Start Workout");
+        View container = (View) workoutButtonText.getParent();
+        if (container instanceof CardView) {
+            int colorRes = active ? R.color.danger : R.color.accent_primary;
+            ((CardView) container).setCardBackgroundColor(getResources().getColor(colorRes, null));
+        }
     }
 }

@@ -31,6 +31,10 @@ public class ProfileFragment extends Fragment {
 
         view.findViewById(R.id.btnEditProfile).setOnClickListener(v -> showEditProfileDialog());
 
+        view.findViewById(R.id.btnBodyProfile).setOnClickListener(v -> {
+            startActivity(new Intent(requireContext(), OnboardingActivity.class));
+        });
+
         view.findViewById(R.id.btnSettings).setOnClickListener(v -> showSettingsDialog());
 
         view.findViewById(R.id.btnLogout).setOnClickListener(v -> {
@@ -59,6 +63,11 @@ public class ProfileFragment extends Fragment {
         editName.setText(authManager.getName());
         form.addView(editName);
 
+        EditText editUserId = new EditText(requireContext());
+        editUserId.setHint("User ID");
+        editUserId.setText(authManager.getUserId());
+        form.addView(editUserId);
+
         EditText editEmail = new EditText(requireContext());
         editEmail.setHint("Email id");
         editEmail.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -72,6 +81,7 @@ public class ProfileFragment extends Fragment {
                 .setPositiveButton("Save", (dialog, which) -> {
                     AuthManager.AuthResult result = authManager.updateProfile(
                             editName.getText().toString(),
+                            editUserId.getText().toString(),
                             editEmail.getText().toString()
                     );
                     Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show();

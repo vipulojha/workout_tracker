@@ -93,7 +93,7 @@
             android:layout_height="54dp"
             android:layout_marginBottom="14dp"
             android:background="@drawable/bg_auth_field"
-            android:hint="Email"
+            android:hint="Email or Username"
             android:inputType="textEmailAddress"
             android:textColor="@color/text_primary"
             android:textColorHint="@color/text_secondary" />
@@ -108,6 +108,15 @@
             android:inputType="textPassword"
             android:textColor="@color/text_primary"
             android:textColorHint="@color/text_secondary" />
+
+        <CheckBox
+            android:id="@+id/cbRememberMe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:text="Remember Me"
+            android:textColor="@color/text_secondary"
+            android:buttonTint="@color/accent_primary" />
 
         <EditText
             android:id="@+id/etConfirmPassword"

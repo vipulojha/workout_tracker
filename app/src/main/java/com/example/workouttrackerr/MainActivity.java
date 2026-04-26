@@ -65,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (!dataManager.hasBodyProfile()) {
-            showBodyProfileDialog();
+            startActivity(new Intent(this, OnboardingActivity.class));
+            finish();
+            return;
         }
     }
 
@@ -73,46 +75,5 @@ public class MainActivity extends AppCompatActivity {
         if (bottomNav != null) {
             bottomNav.setSelectedItemId(itemId);
         }
-    }
-
-    private void showBodyProfileDialog() {
-        LinearLayout form = new LinearLayout(this);
-        form.setOrientation(LinearLayout.VERTICAL);
-        int padding = (int) (20 * getResources().getDisplayMetrics().density);
-        form.setPadding(padding, 8, padding, 0);
-
-        EditText weight = new EditText(this);
-        weight.setHint("Body weight in kg");
-        weight.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        form.addView(weight);
-
-        EditText height = new EditText(this);
-        height.setHint("Height in cm");
-        height.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
-        form.addView(height);
-
-        Spinner goal = new Spinner(this);
-        String[] goals = {"Lose weight - whole body", "Lose weight - specific areas", "Bulk", "Lean muscle", "Maintain fitness"};
-        goal.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, goals));
-        form.addView(goal);
-
-        Spinner bodyType = new Spinner(this);
-        String[] bodyTypes = {"Beginner", "Intermediate", "Advanced", "Returning after break"};
-        bodyType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, bodyTypes));
-        form.addView(bodyType);
-
-        new AlertDialog.Builder(this)
-                .setTitle("Create your body profile")
-                .setMessage("This helps optimize workout suggestions for your goal.")
-                .setView(form)
-                .setCancelable(false)
-                .setPositiveButton("Save", (dialog, which) -> {
-                    String profile = "Weight: " + weight.getText().toString().trim()
-                            + " kg, Height: " + height.getText().toString().trim()
-                            + " cm, Goal: " + goal.getSelectedItem()
-                            + ", Level: " + bodyType.getSelectedItem();
-                    dataManager.saveBodyProfile(profile);
-                })
-                .show();
     }
 }

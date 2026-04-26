@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -59,9 +60,18 @@ public class ExercisesFragment extends Fragment {
         name.setHint("Exercise name");
         form.addView(name);
 
-        EditText details = new EditText(requireContext());
-        details.setHint("Muscle group - type - equipment");
-        form.addView(details);
+        EditText muscle = new EditText(requireContext());
+        muscle.setHint("Muscle group (e.g. Chest)");
+        form.addView(muscle);
+
+        Spinner type = new Spinner(requireContext());
+        String[] typeOptions = {"Strength", "Hypertrophy", "Endurance", "Flexibility"};
+        type.setAdapter(new android.widget.ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, typeOptions));
+        form.addView(type);
+
+        EditText equipment = new EditText(requireContext());
+        equipment.setHint("Equipment (e.g. Barbell)");
+        form.addView(equipment);
 
         new AlertDialog.Builder(requireContext())
                 .setTitle("Add exercise")
@@ -69,8 +79,10 @@ public class ExercisesFragment extends Fragment {
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Save", (dialog, which) -> {
                     String exerciseName = name.getText().toString().trim();
-                    String exerciseDetails = details.getText().toString().trim();
-                    if (!exerciseName.isEmpty() && !exerciseDetails.isEmpty()) {
+                    String exerciseDetails = muscle.getText().toString().trim() + " - " 
+                            + type.getSelectedItem() + " - " 
+                            + equipment.getText().toString().trim();
+                    if (!exerciseName.isEmpty()) {
                         dataManager.addExercise(exerciseName, exerciseDetails);
                         renderExercises();
                     }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.animation.OvershootInterpolator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText etName, etEmail, etPassword, etConfirmPassword;
     private TextView tabLogin, tabSignup;
+    private CheckBox cbRememberMe;
     private Button btnLogin;
     private boolean isSignupMode = false;
     private AuthManager authManager;
@@ -25,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         authManager = new AuthManager(this);
-        if (authManager.isLoggedIn()) {
+        if (authManager.isLoggedIn() && authManager.isRemembered()) {
             openMainScreen();
             return;
         }
@@ -34,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
+        cbRememberMe = findViewById(R.id.cbRememberMe);
         tabLogin = findViewById(R.id.tabLogin);
         tabSignup = findViewById(R.id.tabSignup);
         btnLogin = findViewById(R.id.btnLogin);
@@ -61,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 AuthManager.AuthResult result = isSignupMode
                         ? authManager.signup(name, email, password, confirmPassword)
-                        : authManager.login(email, password);
+                        : authManager.login(email, password, cbRememberMe.isChecked());
 
                 Toast.makeText(LoginActivity.this, result.message, Toast.LENGTH_SHORT).show();
                 if (result.success) {
@@ -82,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         isSignupMode = signupMode;
         etName.setVisibility(signupMode ? View.VISIBLE : View.GONE);
         etConfirmPassword.setVisibility(signupMode ? View.VISIBLE : View.GONE);
+        cbRememberMe.setVisibility(signupMode ? View.GONE : View.VISIBLE);
         btnLogin.setText(signupMode ? "Create Account" : "Continue");
 
         tabLogin.setBackgroundResource(signupMode ? R.drawable.bg_segment_unselected : R.drawable.bg_segment_selected);
