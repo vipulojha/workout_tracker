@@ -3,4 +3,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="background_dark">#0D0F14</color>    <color name="surface_dark">#1A1E26</color>       <color name="text_primary">#FFFFFF</color>       <color name="text_secondary">#A0A5B1</color>     <color name="accent_primary">#5B42F3</color>     </resources>
+    <color name="background_dark">#0D0F14</color>
+    <color name="surface_dark">#1A1E26</color>
+    <color name="surface_light">#232936</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#A0A5B1</color>
+    <color name="accent_primary">#5B42F3</color>
+    <color name="accent_secondary">#18C29C</color>
+    <color name="warning">#FFB84D</color>
+    <color name="danger">#FF4B4B</color>
+</resources>

@@ -3,117 +3,197 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0D0F14"
+    android:background="@color/background_dark"
     android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="16dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome back,"
-            android:textColor="#A0A5B1"
-            android:textSize="16sp" />
+            android:text="Dashboard"
+            android:textColor="@color/text_secondary"
+            android:textSize="15sp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="darshan! 💪"
-            android:textColor="#FFFFFF"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="20dp"
+            android:text="Welcome to your fitness journey"
+            android:textColor="@color/text_primary"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:layout_marginBottom="20dp"
+            app:cardBackgroundColor="@color/surface_dark"
+            app:cardCornerRadius="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="18dp">
+
+                <com.example.workouttrackerr.FitnessRingsView
+                    android:id="@+id/fitnessRings"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Today"
+                        android:textColor="@color/text_primary"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Move 86%"
+                        android:textColor="@color/accent_secondary"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Exercise 72%"
+                        android:textColor="@color/accent_primary"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Streak 58%"
+                        android:textColor="@color/warning"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:orientation="horizontal"
-            android:weightSum="3"
-            android:layout_marginBottom="24dp">
+            android:weightSum="3">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="110dp"
-                android:layout_weight="1"
+                android:layout_height="112dp"
                 android:layout_marginEnd="8dp"
-                app:cardBackgroundColor="#1A1E26"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/surface_dark"
                 app:cardCornerRadius="12dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textColor="#FFFFFF"
-                        android:textSize="24sp"
-                        android:textStyle="bold"/>
+                        android:text="12"
+                        android:textColor="@color/text_primary"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:text="Workouts"
-                        android:textColor="#A0A5B1"
-                        android:textSize="12sp"/>
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="110dp"
-                android:layout_weight="1"
+                android:layout_height="112dp"
                 android:layout_marginEnd="8dp"
-                app:cardBackgroundColor="#1A1E26"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/surface_dark"
                 app:cardCornerRadius="12dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textColor="#FFFFFF"
+                        android:text="48.5k"
+                        android:textColor="@color/accent_secondary"
                         android:textSize="24sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Total Volume"
-                        android:textColor="#A0A5B1"
-                        android:textSize="12sp"/>
+                        android:gravity="center"
+                        android:text="Volume kg"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="110dp"
+                android:layout_height="112dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="#1A1E26"
+                app:cardBackgroundColor="@color/surface_dark"
                 app:cardCornerRadius="12dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textColor="#FFFFFF"
-                        android:textSize="24sp"
-                        android:textStyle="bold"/>
+                        android:text="7"
+                        android:textColor="@color/warning"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="PRs"
-                        android:textColor="#A0A5B1"
-                        android:textSize="12sp"/>
+                        android:gravity="center"
+                        android:text="New PRs"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
@@ -121,62 +201,173 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:text="Quick Actions"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_primary"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="12dp" />
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_marginBottom="24dp">
+            android:weightSum="2">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/btnStartWorkout"
                 android:layout_width="0dp"
-                android:layout_height="90dp"
-                android:layout_weight="1"
+                android:layout_height="86dp"
                 android:layout_marginEnd="8dp"
-                app:cardBackgroundColor="#1A1E26"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="@color/accent_primary"
                 app:cardCornerRadius="12dp">
-                <LinearLayout
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Start Workout"
-                        android:textColor="#FFFFFF"
-                        android:textStyle="bold"/>
-                </LinearLayout>
+                    android:text="Start Workout"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/btnViewPlans"
                 android:layout_width="0dp"
-                android:layout_height="90dp"
-                android:layout_weight="1"
+                android:layout_height="86dp"
                 android:layout_marginStart="8dp"
-                app:cardBackgroundColor="#1A1E26"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="@color/surface_dark"
                 app:cardCornerRadius="12dp">
-                <LinearLayout
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="View Plans"
-                        android:textColor="#FFFFFF"
-                        android:textStyle="bold"/>
-                </LinearLayout>
+                    android:text="View Plans"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
         </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:cardBackgroundColor="@color/surface_dark"
+            app:cardCornerRadius="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Recent Workout"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="14dp"
+                    android:text="Push Day - Today"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Bench Press  4 sets x 8 reps"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Shoulder Press  3 sets x 10 reps"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Tricep Pushdown  3 sets x 12 reps"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/surface_dark"
+            app:cardCornerRadius="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Weekly Progress"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Workout goal: 4 of 5 days"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp" />
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="8dp"
+                    android:max="5"
+                    android:progress="4"
+                    android:progressTint="@color/accent_secondary"
+                    android:progressBackgroundTint="@color/surface_light" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Calories burned: 2,350 of 3,000"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp" />
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="8dp"
+                    android:max="3000"
+                    android:progress="2350"
+                    android:progressTint="@color/accent_primary"
+                    android:progressBackgroundTint="@color/surface_light" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </ScrollView>
