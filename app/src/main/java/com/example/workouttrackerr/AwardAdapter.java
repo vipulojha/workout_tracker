@@ -38,10 +38,17 @@ public class AwardAdapter extends RecyclerView.Adapter<AwardAdapter.ViewHolder> 
         holder.tvTitle.setText(award.title);
         holder.tvYear.setText(award.year);
 
-        // Apply custom gradient colors
-        GradientDrawable background = (GradientDrawable) ((android.graphics.drawable.InsetDrawable) holder.container.getBackground()).getDrawable();
-        if (background != null) {
-            background.setColors(new int[]{Color.parseColor(award.startColor), Color.parseColor(award.endColor)});
+        // Apply custom gradient colors with null protection
+        try {
+            android.graphics.drawable.Drawable backgroundDrawable = holder.container.getBackground();
+            if (backgroundDrawable instanceof android.graphics.drawable.InsetDrawable) {
+                android.graphics.drawable.Drawable inner = ((android.graphics.drawable.InsetDrawable) backgroundDrawable).getDrawable();
+                if (inner instanceof GradientDrawable) {
+                    ((GradientDrawable) inner).setColors(new int[]{Color.parseColor(award.startColor), Color.parseColor(award.endColor)});
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         holder.itemView.setOnClickListener(v -> listener.onAwardClick(award));

@@ -31,9 +31,7 @@ public class ProfileFragment extends Fragment {
 
         view.findViewById(R.id.btnEditProfile).setOnClickListener(v -> showEditProfileDialog());
 
-        view.findViewById(R.id.btnBodyProfile).setOnClickListener(v -> {
-            startActivity(new Intent(requireContext(), OnboardingActivity.class));
-        });
+        view.findViewById(R.id.btnBodyProfile).setOnClickListener(v -> startActivity(new Intent(requireContext(), OnboardingActivity.class)));
 
         view.findViewById(R.id.btnSettings).setOnClickListener(v -> showSettingsDialog());
 
@@ -97,14 +95,18 @@ public class ProfileFragment extends Fragment {
         new AlertDialog.Builder(requireContext())
                 .setTitle("Settings")
                 .setItems(options, (dialog, which) -> {
-                    if (which == 0) {
-                        new AppSettings(requireContext()).setTheme(AppSettings.THEME_LIGHT);
-                        requireActivity().recreate();
-                    } else if (which == 1) {
-                        new AppSettings(requireContext()).setTheme(AppSettings.THEME_DARK);
-                        requireActivity().recreate();
-                    } else {
-                        confirmDeleteAccount();
+                    switch (which) {
+                        case 0:
+                            new AppSettings(requireContext()).setTheme(AppSettings.THEME_LIGHT);
+                            requireActivity().recreate();
+                            break;
+                        case 1:
+                            new AppSettings(requireContext()).setTheme(AppSettings.THEME_DARK);
+                            requireActivity().recreate();
+                            break;
+                        case 2:
+                            confirmDeleteAccount();
+                            break;
                     }
                 })
                 .show();

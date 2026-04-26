@@ -21,7 +21,9 @@ public class HomeFragment extends Fragment {
         workoutButtonText = view.findViewById(R.id.tvStartWorkout);
         
         FitnessRingsView rings = view.findViewById(R.id.fitnessRings);
-        rings.setPercentages(0.86f, 0.72f, 0.58f);
+        if (rings != null) {
+            rings.setPercentages(0.86f, 0.72f, 0.58f);
+        }
 
         updateWorkoutButton();
 

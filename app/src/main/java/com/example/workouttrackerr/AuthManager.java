@@ -6,6 +6,7 @@ import android.util.Patterns;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
 
 public class AuthManager {
     private static final String PREFS_NAME = "workout_tracker_auth";
@@ -25,8 +26,8 @@ public class AuthManager {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
-    public AuthResult login(String identifier, String password, boolean rememberMe) {
-        identifier = identifier == null ? "" : identifier.trim();
+    public AuthResult login(String inputIdentifier, String password, boolean rememberMe) {
+        String identifier = inputIdentifier == null ? "" : inputIdentifier.trim();
         if (identifier.isEmpty()) {
             return AuthResult.error("Enter your email or username");
         }
@@ -44,10 +45,10 @@ public class AuthManager {
         // Use normalized email for hashing if it matches email, otherwise use the identifier
         String hashTarget = identifier.equalsIgnoreCase(savedEmail) ? normalizeEmail(identifier) : identifier;
 
-        boolean currentLogin = savedPasswordHash.equals(hashPassword(hashTarget, password));
-        boolean legacyLogin = savedPasswordHash.equals(hashLegacyPassword(hashTarget, password));
+        boolean currentLogin = Objects.equals(savedPasswordHash, hashPassword(hashTarget, password));
+        boolean legacyLogin = Objects.equals(savedPasswordHash, hashLegacyPassword(hashTarget, password));
         boolean previousLegacyLogin = !previousEmail.isEmpty()
-                && savedPasswordHash.equals(hashLegacyPassword(previousEmail, password));
+                && Objects.equals(savedPasswordHash, hashLegacyPassword(previousEmail, password));
         
         if (savedEmail.isEmpty()) {
             return AuthResult.error("No account found. Please sign up first");
@@ -83,10 +84,10 @@ public class AuthManager {
         if (password == null || password.length() < 6) {
             return AuthResult.error("Password must be at least 6 characters");
         }
-        if (!password.equals(confirmPassword)) {
+        if (!Objects.equals(password, confirmPassword)) {
             return AuthResult.error("Passwords do not match");
         }
-        if (email.equals(getEmail())) {
+        if (Objects.equals(email, getEmail())) {
             return AuthResult.error("Account already exists. Please log in");
         }
 

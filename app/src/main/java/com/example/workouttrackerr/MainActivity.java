@@ -2,18 +2,15 @@ package com.example.workouttrackerr;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNav;
-    private AppDataManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         setContentView(R.layout.activity_main);
-        dataManager = new AppDataManager(this);
+        AppDataManager dataManager = new AppDataManager(this);
 
         bottomNav = findViewById(R.id.bottom_navigation);
 
@@ -56,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (selected != null) {
                     getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                             .replace(R.id.fragment_container, selected)
                             .commit();
                     return true;
