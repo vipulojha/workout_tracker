@@ -31,10 +31,10 @@
             android:textColor="@color/text_primary"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:id="@+id/exercisesContainer"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvExercises"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:nestedScrollingEnabled="false" />
     </LinearLayout>
 </ScrollView>

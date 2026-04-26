@@ -10,35 +10,30 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class ExercisesFragment extends Fragment {
     private AppDataManager dataManager;
-    private LinearLayout exercisesContainer;
+    private RecyclerView rvExercises;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_exercises, container, false);
         dataManager = new AppDataManager(requireContext());
-        exercisesContainer = view.findViewById(R.id.exercisesContainer);
+        rvExercises = view.findViewById(R.id.rvExercises);
+        rvExercises.setLayoutManager(new LinearLayoutManager(requireContext()));
+        
         view.findViewById(R.id.btnCreateExercise).setOnClickListener(v -> showCreateExerciseDialog());
         renderExercises();
         return view;
     }
 
     private void renderExercises() {
-        exercisesContainer.removeAllViews();
         List<String[]> exercises = dataManager.getExercises();
-        for (int i = 0; i < exercises.size(); i++) {
-            final int index = i;
-            String[] exercise = exercises.get(i);
-            TextView item = createListItem(exercise[0] + "\n" + exercise[1]);
-            item.setOnLongClickListener(v -> {
-                showDeleteDialog(exercise[0], index);
-                return true;
-            });
-            exercisesContainer.addView(item);
-        }
+        ExerciseAdapter adapter = new ExerciseAdapter(exercises, this::showDeleteDialog);
+        rvExercises.setAdapter(adapter);
     }
 
     private void showDeleteDialog(String name, int index) {
@@ -51,22 +46,6 @@ public class ExercisesFragment extends Fragment {
                     renderExercises();
                 })
                 .show();
-    }
-
-    private TextView createListItem(String text) {
-        TextView item = new TextView(requireContext());
-        item.setText(text);
-        item.setTextColor(getResources().getColor(R.color.text_primary, null));
-        item.setTextSize(16);
-        item.setBackgroundResource(R.drawable.bg_auth_field);
-        item.setPadding(18, 18, 18, 18);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.setMargins(0, 0, 0, 14);
-        item.setLayoutParams(params);
-        return item;
     }
 
     private void showCreateExerciseDialog() {

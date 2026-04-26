@@ -15,12 +15,19 @@ public class FitnessRingsView extends View {
     private final RectF arcBounds = new RectF();
     private float animationProgress = 0f;
 
-    private final float[] targets = {0.86f, 0.72f, 0.58f};
+    private float[] targets = {0.86f, 0.72f, 0.58f};
     private final int[] colors = {
             Color.rgb(24, 194, 156),
             Color.rgb(91, 66, 243),
             Color.rgb(255, 184, 77)
     };
+
+    public void setPercentages(float move, float exercise, float streak) {
+        targets[0] = move;
+        targets[1] = exercise;
+        targets[2] = streak;
+        invalidate();
+    }
 
     public FitnessRingsView(Context context) {
         super(context);

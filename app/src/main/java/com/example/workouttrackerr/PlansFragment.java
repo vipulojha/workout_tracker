@@ -10,35 +10,30 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class PlansFragment extends Fragment {
     private AppDataManager dataManager;
-    private LinearLayout plansContainer;
+    private RecyclerView rvPlans;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_plans, container, false);
         dataManager = new AppDataManager(requireContext());
-        plansContainer = view.findViewById(R.id.plansContainer);
+        rvPlans = view.findViewById(R.id.rvPlans);
+        rvPlans.setLayoutManager(new LinearLayoutManager(requireContext()));
+        
         view.findViewById(R.id.btnCreatePlan).setOnClickListener(v -> showCreatePlanDialog());
         renderPlans();
         return view;
     }
 
     private void renderPlans() {
-        plansContainer.removeAllViews();
         List<String[]> plans = dataManager.getPlans();
-        for (int i = 0; i < plans.size(); i++) {
-            final int index = i;
-            String[] plan = plans.get(i);
-            TextView item = createListItem(plan[0] + "\n" + plan[1]);
-            item.setOnLongClickListener(v -> {
-                showDeleteDialog(plan[0], index);
-                return true;
-            });
-            plansContainer.addView(item);
-        }
+        WorkoutAdapter adapter = new WorkoutAdapter(plans, this::showDeleteDialog);
+        rvPlans.setAdapter(adapter);
     }
 
     private void showDeleteDialog(String name, int index) {
@@ -51,22 +46,6 @@ public class PlansFragment extends Fragment {
                     renderPlans();
                 })
                 .show();
-    }
-
-    private TextView createListItem(String text) {
-        TextView item = new TextView(requireContext());
-        item.setText(text);
-        item.setTextColor(getResources().getColor(R.color.text_primary, null));
-        item.setTextSize(16);
-        item.setBackgroundResource(R.drawable.bg_auth_field);
-        item.setPadding(18, 18, 18, 18);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.setMargins(0, 0, 0, 14);
-        item.setLayoutParams(params);
-        return item;
     }
 
     private void showCreatePlanDialog() {
