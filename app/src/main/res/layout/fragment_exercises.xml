@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_dark"
     android:padding="16dp">
 
     <LinearLayout
+        android:id="@+id/exercisesRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -14,39 +14,27 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="14dp"
             android:text="Exercise Library"
             android:textColor="@color/text_primary"
             android:textSize="28sp"
             android:textStyle="bold" />
 
-        <TextView
+        <Button
+            android:id="@+id/btnCreateExercise"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_auth_field"
-            android:padding="18dp"
-            android:text="Bench Press&#10;Chest - Strength - Barbell"
+            android:layout_height="54dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_primary_button"
+            android:text="Add Exercise"
+            android:textAllCaps="false"
             android:textColor="@color/text_primary"
-            android:textSize="16sp" />
+            android:textStyle="bold" />
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/exercisesContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_auth_field"
-            android:padding="18dp"
-            android:text="Squat&#10;Legs - Strength - Barbell"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_auth_field"
-            android:padding="18dp"
-            android:text="Lat Pulldown&#10;Back - Hypertrophy - Cable"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp" />
+            android:orientation="vertical" />
     </LinearLayout>
 </ScrollView>

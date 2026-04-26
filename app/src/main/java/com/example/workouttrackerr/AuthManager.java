@@ -11,6 +11,7 @@ public class AuthManager {
     private static final String PREFS_NAME = "workout_tracker_auth";
     private static final String KEY_NAME = "name";
     private static final String KEY_EMAIL = "email";
+    private static final String KEY_PREVIOUS_EMAIL = "previous_email";
     private static final String KEY_PASSWORD_HASH = "password_hash";
     private static final String KEY_LOGGED_IN = "logged_in";
 
@@ -32,9 +33,15 @@ public class AuthManager {
         }
 
         String savedEmail = getEmail();
+        String previousEmail = prefs.getString(KEY_PREVIOUS_EMAIL, "");
         String savedPasswordHash = prefs.getString(KEY_PASSWORD_HASH, "");
 
-        boolean savedLogin = savedEmail.equals(email) && savedPasswordHash.equals(hashPassword(email, password));
+        boolean currentLogin = savedPasswordHash.equals(hashPassword(email, password));
+        boolean legacyLogin = savedPasswordHash.equals(hashLegacyPassword(email, password));
+        boolean previousLegacyLogin = !previousEmail.isEmpty()
+                && savedPasswordHash.equals(hashLegacyPassword(previousEmail, password));
+        boolean savedLogin = savedEmail.equals(email) && (currentLogin || legacyLogin);
+        savedLogin = savedLogin || (savedEmail.equals(email) && previousLegacyLogin);
         if (savedEmail.isEmpty()) {
             return AuthResult.error("No account found. Please sign up first");
         }
@@ -45,7 +52,12 @@ public class AuthManager {
             return AuthResult.error("Incorrect password");
         }
 
-        prefs.edit().putBoolean(KEY_LOGGED_IN, true).apply();
+        SharedPreferences.Editor editor = prefs.edit().putBoolean(KEY_LOGGED_IN, true);
+        if (legacyLogin || previousLegacyLogin) {
+            editor.putString(KEY_PASSWORD_HASH, hashPassword(email, password));
+            editor.remove(KEY_PREVIOUS_EMAIL);
+        }
+        editor.apply();
         return AuthResult.success("Login successful");
     }
 
@@ -69,8 +81,8 @@ public class AuthManager {
             return AuthResult.error("Account already exists. Please log in");
         }
 
-        saveSession(name, email, password);
-        return AuthResult.success("Account created. Welcome!");
+        saveAccount(name, email, password, false);
+        return AuthResult.success("Account created. Please log in");
     }
 
     public boolean isLoggedIn() {
@@ -89,12 +101,33 @@ public class AuthManager {
         prefs.edit().putBoolean(KEY_LOGGED_IN, false).apply();
     }
 
-    private void saveSession(String name, String email, String password) {
+    public AuthResult updateProfile(String name, String email) {
+        name = name == null ? "" : name.trim();
+        email = normalizeEmail(email);
+        if (name.length() < 2) {
+            return AuthResult.error("Enter a valid name");
+        }
+        if (!isValidEmail(email)) {
+            return AuthResult.error("Enter a valid email address");
+        }
+        prefs.edit()
+                .putString(KEY_NAME, name)
+                .putString(KEY_EMAIL, email)
+                .putString(KEY_PREVIOUS_EMAIL, getEmail())
+                .apply();
+        return AuthResult.success("Profile updated");
+    }
+
+    public void deleteAccount() {
+        prefs.edit().clear().apply();
+    }
+
+    private void saveAccount(String name, String email, String password, boolean loggedIn) {
         prefs.edit()
                 .putString(KEY_NAME, name)
                 .putString(KEY_EMAIL, email)
                 .putString(KEY_PASSWORD_HASH, hashPassword(email, password))
-                .putBoolean(KEY_LOGGED_IN, true)
+                .putBoolean(KEY_LOGGED_IN, loggedIn)
                 .apply();
     }
 
@@ -107,9 +140,17 @@ public class AuthManager {
     }
 
     private String hashPassword(String email, String password) {
+        return hashText(password);
+    }
+
+    private String hashLegacyPassword(String email, String password) {
+        return hashText(email + ":" + password);
+    }
+
+    private String hashText(String value) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest((email + ":" + password).getBytes(StandardCharsets.UTF_8));
+            byte[] hash = digest.digest(value.getBytes(StandardCharsets.UTF_8));
             StringBuilder hex = new StringBuilder();
             for (byte b : hash) {
                 hex.append(String.format("%02x", b));

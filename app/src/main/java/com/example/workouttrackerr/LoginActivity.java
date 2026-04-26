@@ -21,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new AppSettings(this).applyTheme();
         setContentView(R.layout.activity_login);
 
         authManager = new AuthManager(this);
@@ -64,7 +65,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 Toast.makeText(LoginActivity.this, result.message, Toast.LENGTH_SHORT).show();
                 if (result.success) {
-                    openMainScreen();
+                    if (isSignupMode) {
+                        setSignupMode(false);
+                        etEmail.setText(email);
+                        etPassword.setText("");
+                        etConfirmPassword.setText("");
+                    } else {
+                        openMainScreen();
+                    }
                 }
             }
         });
